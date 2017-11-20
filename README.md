@@ -35,9 +35,10 @@ For example, configuration for an oozie metrics transformation service:
 ## Usage
 
 Arguments:
+
 option | description | required? | default
 ---|---|---|---
-path_config | absolute file path to the  configuration file | yes | 
+path_config | absolute file path to the configuration file | yes |
 
 Run:
 ```
