@@ -1,0 +1,7 @@
+[
+    {
+        "id": "local-file",
+        "url": "file:target/test-classes/oozie_instrumentation.json",
+        "jq": "to_entries[] | .key as $key | .value | map(.group as $group | .data | map(.name as $name | del(.name) | to_entries[] | select(.value | type == \"number\") |\"oozie_\" + $key + \"_\" + (.key | gsub(\"(?<match>[A-Z])\"; \"_\" + (.match | ascii_downcase))) + \"{group=\\\"\" + $group + \"\\\",name=\\\"\" + $name + \"\\\"} \" + (.value | tostring))) | .[][]"
+    }
+]

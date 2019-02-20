@@ -2,6 +2,7 @@ package ca.on.oicr.gsi.jq_exporter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.net.URISyntaxException;
+import java.util.stream.Collectors;
 import net.thisptr.jackson.jq.exception.JsonQueryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,15 +21,9 @@ public class DataController {
 
     @RequestMapping(value = "/{service}")
     public ResponseEntity<String> get(@PathVariable(value = "service") String service) throws URISyntaxException, JsonQueryException, Exception {
-        StringBuilder sb = new StringBuilder();
-        for (JsonNode j : dataService.get(service)) {
-            sb.append(j.asText());
-            sb.append("\n");
-        }
-
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.TEXT_PLAIN);
-        return new ResponseEntity<>(sb.toString(), responseHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(dataService.get(service).stream().map(JsonNode::asText).collect(Collectors.joining("\n")), responseHeaders, HttpStatus.OK);
     }
 
 }
